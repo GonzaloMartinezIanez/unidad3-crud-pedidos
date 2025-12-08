@@ -1,3 +1,4 @@
+# Arbol binario para almacenar los productos
 class Product:
     def __init__(self, id_product, name, description, price):
         self.id_product = id_product
@@ -20,6 +21,15 @@ class Product:
         
         return root
     
+    def to_json(self):
+        return {            
+                "id_product": self.id_product,
+                "name": self.name,
+                "description": self.description,
+                "price": self.price
+        }
+
+# Funcion que devuelve el nodo del producto con este id
 def search(root : Product, id_product):
     if root is None or root.id_product == id_product:
         return root
@@ -34,6 +44,33 @@ def search(root : Product, id_product):
         else:
             return search(root.right, id_product)
 
+def inorder(root: Product):
+    if root is None:
+        return []
+    
+    result = []
+
+    
+    if root.left is not None:
+        result.extend(inorder(root.left))
+
+    result.append(root.to_json())
+
+    if root.right is not None:
+        result.extend(inorder(root.right))
+
+
+    return result
+
+
+# Recorre el arbol de productos en inorden y devuelve los datos en json
+def get_all_products(root: Product):
+    result = {
+        "products": inorder(root)
+    }    
+    return result
+
+# Lista enlazada que guarda una lista de productos
 class ProductList:
     def __init__(self, product):
         self.product = product
@@ -67,6 +104,15 @@ class ProductList:
         
         # Se devuelve el primer producto de la lista
         return self
+    
+    def get_ids(self):
+        if self.next is None:
+            ids = [self.product.id_product]
+            return ids
+        else:
+            ids = [self.product.id_product]
+            ids.extend(self.next.get_ids())
+            return ids
       
 
     def to_string(self):
@@ -76,6 +122,8 @@ class ProductList:
         else:
             return this_product + self.next.to_string()
 
+# Lista enlazada que guarda una lista de ordenes que a su vez guardan otra
+# lista enlazada de productos
 class OrderList:
     def __init__(self, id_order):
         self.id_order = id_order
@@ -92,7 +140,7 @@ class OrderList:
                 self.orders.insert(new_product)
         elif self.next is not None:
             self.next.insert_product(id_order, new_product)
-        # Si no hay siguiente, no existe una orden con este id
+        # Si no hay siguiente, no existe un pedido con este id
 
     def insert_order(self, id_order):
         if self.next is None:
@@ -127,6 +175,23 @@ class OrderList:
 
         # Se devuelve el primer producto de la lista
         return self
+    
+    def get_product_id_in_order(self, id_order):
+        if self.id_order == id_order:
+            if self.orders is None:
+                return []
+            else:
+                return self.orders.get_ids()
+        elif self.next is not None:
+            return self.next.get_product_id_in_order(id_order)
+
+    def check_if_exists(self, id_order):
+        if self.id_order == id_order:
+            return True
+        elif self.next is not None:
+            return self.next.check_if_exists(id_order)
+        else:
+            return False
 
     def list_to_string(self, id_order):
         if id_order == self.id_order:
@@ -135,10 +200,7 @@ class OrderList:
             return self.next.list_to_string(id_order)
 
 
-
-
-
-products = Product(24, "Tornillo", "descripcion tornillo", 6)
+""" products = Product(24, "Tornillo", "descripcion tornillo", 6)
 products.insert(10, "Tuerca", "descripcion tuerca", 5)
 products.insert(43, "Destornillador", "descripcion destronillador", 49)
 products.insert(20, "LLave inglesa", "descripcion llave inglesa", 123)
@@ -157,4 +219,4 @@ orders.insert_product(2, search(products, 20))
 orders.delete_product(2, 24)
 #print(orders.list_to_string(2))
 orders = orders.delete_order(2)
-print(orders.list_to_string(2))
+print(orders.list_to_string(2)) """

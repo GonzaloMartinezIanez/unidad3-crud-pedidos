@@ -1,0 +1,116 @@
+[
+  {
+    "id_product": 8421,
+    "name": "Laptop Pro 15",
+    "description": "Laptop de alto rendimiento con 16GB RAM y SSD de 512GB.",
+    "price": 1499
+  },
+  {
+    "id_product": 127,
+    "name": "Mouse Inalambrico",
+    "description": "Mouse ergonomico con conexion Bluetooth.",
+    "price": 25
+  },
+  {
+    "id_product": 9340,
+    "name": "Teclado Mecanico",
+    "description": "Teclado con switches rojos y retroiluminacion RGB.",
+    "price": 89
+  },
+  {
+    "id_product": 210,
+    "name": "Auriculares Over-Ear",
+    "description": "Auriculares con cancelacion activa de ruido.",
+    "price": 199
+  },
+  {
+    "id_product": 6789,
+    "name": "Webcam HD",
+    "description": "Camara web con resolucion 1080p y microfono integrado.",
+    "price": 59
+  },
+  {
+    "id_product": 3891,
+    "name": "Disco SSD 1TB",
+    "description": "Almacenamiento solido NVMe de 1TB.",
+    "price": 119
+  },
+  {
+    "id_product": 951,
+    "name": "Cargador USB-C",
+    "description": "Cargador rapido de 30W con puerto USB-C.",
+    "price": 18
+  },
+  {
+    "id_product": 7023,
+    "name": "Router WiFi 6",
+    "description": "Router de doble banda compatible con WiFi 6.",
+    "price": 139
+  },
+  {
+    "id_product": 514,
+    "name": "Batería Portatil 20000mAh",
+    "description": "Powerbank de gran capacidad con carga rapida.",
+    "price": 34
+  },
+  {
+    "id_product": 8372,
+    "name": "USB-C Dock",
+    "description": "Estacion de conexion con multiples puertos.",
+    "price": 89
+  },
+  {
+    "id_product": 154,
+    "name": "Gaming Mouse",
+    "description": "Raton ergonomico con iluminacion RGB.",
+    "price": 49
+  },
+  {
+    "id_product": 6241,
+    "name": "Bluetooth Speaker",
+    "description": "Altavoz portatil con sonido envolvente.",
+    "price": 59
+  },
+  {
+    "id_product": 9210,
+    "name": "Fitness Tracker",
+    "description": "Banda inteligente para monitoreo de actividad.",
+    "price": 39
+  },
+  {
+    "id_product": 3187,
+    "name": "Wireless Earbuds",
+    "description": "Auriculares inalambricos con cancelacion de ruido.",
+    "price": 79
+  },
+  {
+    "id_product": 478,
+    "name": "Portable SSD 1TB",
+    "description": "Unidad de estado solido externa de alta velocidad.",
+    "price": 129
+  },
+  {
+    "id_product": 7065,
+    "name": "Smart LED Bulb",
+    "description": "Bombilla inteligente compatible con asistentes virtuales.",
+    "price": 19
+  },
+  {
+    "id_product": 2451,
+    "name": "Mechanical Keyboard",
+    "description": "Teclado mecanico con switches tactiles.",
+    "price": 99
+  },
+  {
+    "id_product": 9978,
+    "name": "Webcam HD",
+    "description": "Camara web en alta definicion para videollamadas.",
+    "price": 45
+  },
+  {
+    "id_product": 5310,
+    "name": "VR Headset",
+    "description": "Visor de realidad virtual de ultima generacion.",
+    "price": 299
+  }
+]
