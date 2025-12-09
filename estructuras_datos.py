@@ -8,6 +8,7 @@ class Product:
         self.left = None
         self.right = None
     
+    # Añade un nuevo nodo al arbol
     def insert(root, id_product, name, description, price):
         # El padre de este nodo
         if root is None:
@@ -21,6 +22,7 @@ class Product:
         
         return root
     
+    # Devuelve la informacion del producto en formato json
     def to_json(self):
         return {            
                 "id_product": self.id_product,
@@ -29,6 +31,7 @@ class Product:
                 "price": self.price
         }
     
+    # Funcion auxiliar
     def get_data(self):
         return (self.id_product, self.name, self.description, self.price)
 
@@ -47,6 +50,8 @@ def search(root : Product, id_product):
         else:
             return search(root.right, id_product)
 
+# Recorre todo el arbol de productos en inorder y devuelve
+# los productos en formato json
 def inorder(root: Product):
     if root is None:
         return []
@@ -65,7 +70,7 @@ def inorder(root: Product):
 
     return result
 
-# Recorre el arbol de productos en inorden y devuelve los datos en json
+# Devuelve un json con la lista de productos del arbol
 def get_all_products(root: Product):
     result = {
         "products": inorder(root)
@@ -78,12 +83,14 @@ class ProductList:
         self.product = product
         self.next = None
 
+    # Añade un nuevo nodo al final de la lista
     def insert(self, product):
         if self.next is None:
             self.next = ProductList(product)
         else:
             self.next.insert(product)
 
+    # Elimina un nodo de la lista y devuelve el puntero del primer nodo
     def delete(self, id_product):
         # Hay que borrar el primero
         if self.product.id_product == id_product:
@@ -107,6 +114,8 @@ class ProductList:
         # Se devuelve el primer producto de la lista
         return self
     
+    # Recorre recursivamente la lista y devuelve un listado
+    # con el id de los productos en la lista
     def get_ids(self):
         if self.next is None:
             ids = [self.product.id_product]
@@ -116,13 +125,15 @@ class ProductList:
             ids.extend(self.next.get_ids())
             return ids
 
+    # Metodo auxiliar para probar el contenido de una lista
     def to_string(self):
         this_product = f"[id: {self.product.id_product} - nombre: {self.product.name} - descripcion: {self.product.description} - precio: {self.product.price}]"
         if self.next is None:
             return this_product
         else:
             return this_product + self.next.to_string()
-        
+    
+    # Metodo que devuelve un array con todos los productos que tiene la lista
     def to_json(self):
         if self.next is None:
             return [self.product.get_data()]
@@ -132,7 +143,7 @@ class ProductList:
             return data
 
         
-# Lista enlazada que guarda una lista de ordenes que a su vez guardan otra
+# Lista enlazada que guarda una lista de pedidos que a su vez guardan otra
 # lista enlazada de productos
 class OrderList:
     def __init__(self, id_order: int):
@@ -140,6 +151,7 @@ class OrderList:
         self.orders = None
         self.next = None
 
+    # Añade un nuevo producto al pedido con este id
     def insert_product(self, id_order, new_product):
         if self.id_order == id_order:
             # La lista esta vacia
@@ -152,18 +164,21 @@ class OrderList:
             self.next.insert_product(id_order, new_product)
         # Si no hay siguiente, no existe un pedido con este id
 
+    # Crea un nodo en la lista con un pedido vacio
     def insert_order(self, id_order):
         if self.next is None:
               self.next = OrderList(id_order)
         else:
             self.next.insert_order(id_order)
 
+    # Elimina un producto de la lista de productos del pedido con este id
     def delete_product(self, id_order, id_product):
         if self.id_order == id_order:
             self.orders = self.orders.delete(id_product)
         elif self.next is not None:
             self.next.delete_product(id_order, id_product)
         
+    # Elimina un pedido y devuelve el primer nodo de la lista de pedidos
     def delete_order(self, id_order):
         # Hay que borrar el primero
         if self.id_order == id_order:
@@ -186,6 +201,8 @@ class OrderList:
         # Se devuelve el primer producto de la lista
         return self
     
+    # Recorre la lista de pedidos y devuelve los ids de los productos que tiene
+    # el pedido con el id pasado
     def get_product_id_in_order(self, id_order):
         if self.id_order == id_order:
             if self.orders is None:
@@ -195,6 +212,9 @@ class OrderList:
         elif self.next is not None:
             return self.next.get_product_id_in_order(id_order)
 
+    # Comprueba que exista un pedido con este id
+    # Si se intenta hacer uso de un pedido que no existe, la aplicacion
+    # generara un error de tipo 500
     def check_if_exists(self, id_order):
         if self.id_order == id_order:
             return True
@@ -203,6 +223,8 @@ class OrderList:
         else:
             return False
 
+    # Recorre todos los pedidos y devuelve el que tenga el mayor id utilizado
+    # para insertar nuevos pedidos
     def get_highest_id_order(self):
         if self.next is None:
             return self.id_order
@@ -213,19 +235,24 @@ class OrderList:
             else:
                 return next_highest
 
+    # Metodo auxilair para probar el contenido de los pedidos
     def list_to_string(self, id_order):
         if id_order == self.id_order:
             return self.orders.to_string()
         elif self.next is not None:
             return self.next.list_to_string(id_order)
     
+    # Devuelve un json que tiene un listado con todos los productos que tiene
+    # el pedido con este id
     def list_to_json(self, id_order):
         if id_order == self.id_order:
+            # No tiene productos
             if self.orders is None:
                 return {
                     "products": []
                 }
             else:
+                # Generar el json con todos los productos
                 data = self.orders.to_json()
                 result = {
                     "products": []
@@ -240,10 +267,13 @@ class OrderList:
 
                 return result
         elif self.next is not None:
+            # Buscar en el siguiente pedido
             return self.next.list_to_json(id_order)
 
 
-""" products = Product(24, "Tornillo", "descripcion tornillo", 6)
+""" 
+# Pruebas
+products = Product(24, "Tornillo", "descripcion tornillo", 6)
 products.insert(10, "Tuerca", "descripcion tuerca", 5)
 products.insert(43, "Destornillador", "descripcion destronillador", 49)
 products.insert(20, "LLave inglesa", "descripcion llave inglesa", 123)
