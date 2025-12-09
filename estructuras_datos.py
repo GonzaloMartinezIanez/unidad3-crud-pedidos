@@ -1,6 +1,6 @@
 # Arbol binario para almacenar los productos
 class Product:
-    def __init__(self, id_product, name, description, price):
+    def __init__(self, id_product: int, name: str, description: str, price: int):
         self.id_product = id_product
         self.name = name
         self.description = description
@@ -28,6 +28,9 @@ class Product:
                 "description": self.description,
                 "price": self.price
         }
+    
+    def get_data(self):
+        return (self.id_product, self.name, self.description, self.price)
 
 # Funcion que devuelve el nodo del producto con este id
 def search(root : Product, id_product):
@@ -62,7 +65,6 @@ def inorder(root: Product):
 
     return result
 
-
 # Recorre el arbol de productos en inorden y devuelve los datos en json
 def get_all_products(root: Product):
     result = {
@@ -72,7 +74,7 @@ def get_all_products(root: Product):
 
 # Lista enlazada que guarda una lista de productos
 class ProductList:
-    def __init__(self, product):
+    def __init__(self, product : Product):
         self.product = product
         self.next = None
 
@@ -113,7 +115,6 @@ class ProductList:
             ids = [self.product.id_product]
             ids.extend(self.next.get_ids())
             return ids
-      
 
     def to_string(self):
         this_product = f"[id: {self.product.id_product} - nombre: {self.product.name} - descripcion: {self.product.description} - precio: {self.product.price}]"
@@ -121,11 +122,20 @@ class ProductList:
             return this_product
         else:
             return this_product + self.next.to_string()
+        
+    def to_json(self):
+        if self.next is None:
+            return [self.product.get_data()]
+        else:
+            data = [self.product.get_data()]
+            data.extend(self.next.to_json())
+            return data
 
+        
 # Lista enlazada que guarda una lista de ordenes que a su vez guardan otra
 # lista enlazada de productos
 class OrderList:
-    def __init__(self, id_order):
+    def __init__(self, id_order: int):
         self.id_order = id_order
         self.orders = None
         self.next = None
@@ -193,11 +203,44 @@ class OrderList:
         else:
             return False
 
+    def get_highest_id_order(self):
+        if self.next is None:
+            return self.id_order
+        else:
+            next_highest = self.next.get_highest_id_order()
+            if self.id_order > next_highest:
+                return self.id_order
+            else:
+                return next_highest
+
     def list_to_string(self, id_order):
         if id_order == self.id_order:
             return self.orders.to_string()
         elif self.next is not None:
             return self.next.list_to_string(id_order)
+    
+    def list_to_json(self, id_order):
+        if id_order == self.id_order:
+            if self.orders is None:
+                return {
+                    "products": []
+                }
+            else:
+                data = self.orders.to_json()
+                result = {
+                    "products": []
+                }
+                for p in data:
+                    result['products'].append({
+                        "id_product": p[0],
+                        "name": p[1],
+                        "description": p[2],
+                        "price": p[3]
+                    })
+
+                return result
+        elif self.next is not None:
+            return self.next.list_to_json(id_order)
 
 
 """ products = Product(24, "Tornillo", "descripcion tornillo", 6)
