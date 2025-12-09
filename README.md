@@ -34,6 +34,7 @@ A continuación se enumeran todas las peticiones http disponibles en el sistema.
     - POST /product : Añade un producto al sistema, en el cuerpo de la petición hay que enviar un json con los atributos "name" (str), "description" (str) y "price" (int). El sistema generará un id nuevo y lo devolverá junto a un mensaje de éxito.
 2. Orders
     - GET /order/?id_order=int : Devuelve un listado con los productos que hay en el pedido con id_order pasado como parámetro.
+    - GET /all_orders : Devuelve un listado con todos los pedidos
     - POST /order : Añade un pedido al sistema, este puede traer un listado ids de productos con o sin productos. Devuelve el id_order generado junto a un mensaje de éxito.
     - PUT /order/?id_order=int : Modifica el pedido con id_order pasado como parámetro. En el body se pasa el nuevo listado con los productos que deberá contener este pedido y devolverá un mensaje con los productos que se han insertado, los que se han eliminado y un mensaje de éxito.
     - DELETE /order/?id_order=int : Elimina el pedido con id_order pasado como parámetro.

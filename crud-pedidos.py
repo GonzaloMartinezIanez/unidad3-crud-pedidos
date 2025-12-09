@@ -2,7 +2,7 @@
 # fastapi dev .\crud-pedidos.py
 import random, os, json, pickle
 from fastapi import FastAPI, HTTPException, status
-from estructuras_datos import Product, ProductList, OrderList, search, get_all_products
+from estructuras_datos import Product, ProductList, OrderList, search, get_all_products, get_all_orders
 from pydantic import BaseModel
 from collections import Counter
 from doc import tags_metadata
@@ -253,3 +253,15 @@ async def delete_order_id(id_order:int):
         orders = orders.delete_order(id_order)
         save_orders()
         return {"message": f"Pedido con id {id_order} eliminado correctamente"}
+
+# Endpoint para listar todos los pedidos
+@app.get("/all_orders/", status_code=status.HTTP_200_OK, tags=["get_all_orders"])
+async def get_orders():
+    global orders
+    if orders is None:
+        raise HTTPException(status_code=404, detail=f"No hay ningún pedido en el sistema")
+    
+    result = get_all_orders(orders)
+    return result
+
+    

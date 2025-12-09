@@ -27,4 +27,8 @@ tags_metadata = [
         "name": "delete_order",
         "description": "Elimina un pedido del sistema mediante su id."
     },
+    {
+        "name": "get_all_orders",
+        "description": "Obtiene un listado de todos los pedidos del sistema"
+    }
 ]

@@ -270,6 +270,39 @@ class OrderList:
             # Buscar en el siguiente pedido
             return self.next.list_to_json(id_order)
 
+    # Devuelve todos los pedidos con su productos
+    def all_orders_to_json(self):
+        # Es el ultimo
+        if self.next is None:
+            return [{
+                "id_order" : self.id_order,
+                "products": self.list_to_json(self.id_order)["products"]
+            }]
+        else:
+            this_order = []
+            # Pedido sin productos
+            if self.orders is None:
+                this_order = [{
+                    "id_order" : self.id_order,
+                    "products": []
+                }] 
+            else:
+                # Buscar los productos del pedido actual
+                this_order = [{
+                    "id_order" : self.id_order,
+                    "products": self.list_to_json(self.id_order)["products"]
+                }]  
+            # Devolver el resto de forma recursiva           
+            return this_order + (self.next.all_orders_to_json())
+
+# Devuelve todos los pedidos en formato json
+def get_all_orders(orders : OrderList):
+    result = {
+        "orders": orders.all_orders_to_json()
+    }
+
+    return result
+
 
 """ 
 # Pruebas
